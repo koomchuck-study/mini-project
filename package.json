@@ -6,8 +6,14 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "browerslist": "browserslist"
   },
+  "browserslist": [
+    "last 5 version",
+    "android >= 4.4",
+    "IE >= 10"
+  ],
   "dependencies": {
     "nuxt": "^2.13.0"
   },

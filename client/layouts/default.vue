@@ -1,117 +1,107 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
+    <v-system-bar
       app
+      color="grey"
+      :height="height"
+      :lights-out="lightsOut"
+      :window="window"
     >
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+      <v-icon>mdi-gmail</v-icon>
+      <span>10 unread emails</span>
+      <v-spacer></v-spacer>
+      <v-icon>mdi-wifi-strength-4</v-icon>
+      <v-icon>mdi-signal-cellular-outline</v-icon>
+      <v-icon>mdi-battery</v-icon>
+      <span>{{getTime}}</span>
+    </v-system-bar>
+    <v-navigation-drawer app></v-navigation-drawer>
     <v-app-bar
-      :clipped-left="clipped"
-      fixed
       app
+      absolute
+      dark
+      hide-on-scroll
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn
-        icon
-        @click.stop="miniVariant = !miniVariant"
-      >
-        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+
+      <v-toolbar-title>Project</v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
+      <v-btn icon>
+        <v-icon>mdi-magnify</v-icon>
       </v-btn>
-      <v-btn
-        icon
-        @click.stop="clipped = !clipped"
-      >
-        <v-icon>mdi-application</v-icon>
+
+      <v-btn icon>
+        <v-icon>mdi-heart</v-icon>
       </v-btn>
-      <v-btn
-        icon
-        @click.stop="fixed = !fixed"
-      >
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
-      <v-toolbar-title v-text="title" />
-      <v-spacer />
-      <v-btn
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
-      >
-        <v-icon>mdi-menu</v-icon>
+
+      <v-btn icon>
+        <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
     </v-app-bar>
-    <v-content>
-      <v-container>
-        <nuxt />
-      </v-container>
-    </v-content>
-    <v-navigation-drawer
-      v-model="rightDrawer"
-      :right="right"
-      temporary
-      fixed
-    >
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light>
-              mdi-repeat
-            </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-    <v-footer
-      :absolute="!fixed"
+
+    <v-main
       app
-    >
-      <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
+      style="height: 1000px;">
+      <nuxt/>
+    </v-main>
+
+    <v-card>
+
+      <v-footer
+        color="dark grey lighten-1"
+        padless
+      >
+        <v-row
+          justify="center"
+          no-gutters
+        >
+          <v-btn
+            v-for="link in links"
+            :key="link"
+            color="white"
+            text
+            rounded
+            class="my-2"
+          >
+            hello
+          </v-btn>
+          <v-col
+            class="dark lighten-2 py-4 text-center white--text"
+            cols="12"
+          >
+            {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
+          </v-col>
+        </v-row>
+      </v-footer>
+
+    </v-card>
+
   </v-app>
 </template>
-
 <script>
-export default {
-  data () {
-    return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js'
-    }
+  export default {
+    name: "MainInfo",
+    data() {
+      return {
+        links: ["a", "b", "c"],
+        height: 30,
+        lightsOut: false,
+        window: false,
+        time: "12:00"
+
+      }
+    },
+    computed: {
+      getTime() {
+        const now = new Date();
+        let hour = String(now.getHours());
+        let minute = String(now.getMinutes());
+        hour = hour < 10 ? "0" + hour : hour;
+        minute = minute < 10 ? "0" + minute : minute;
+        return hour + ":" + minute;
+      }
+    },
   }
-}
 </script>
